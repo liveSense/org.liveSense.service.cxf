@@ -3,10 +3,10 @@
 ## Description
 liveSense CXF Service prototypes. Aegis/JAXWS/JAXRS Service abtract classes
 
-## Exported packages
+## OSGi Exported packages
 * org.liveSense.service.cxf(1.0.0.SNAPSHOT)
 
-## Dependencies
+## OSGi Dependencies
 * __System Bundle - org.apache.felix.framework (3.0.8)__
 	* javax.naming
 	* javax.xml.namespace
@@ -19,9 +19,9 @@ liveSense CXF Service prototypes. Aegis/JAXWS/JAXRS Service abtract classes
 * __Apache Felix Http Jetty - org.apache.felix.http.jetty (2.2.0)__
 	* javax.servlet
 	* javax.servlet.http
-* __[liveSense :: Core - org.liveSense.core](http://github.com/liveSense/org.liveSense.core) (1.0.1.SNAPSHOT)__
+* __[liveSense :: Core - org.liveSense.core (2-SNAPSHOT)](http://github.com/liveSense/org.liveSense.core)__
 	* org.liveSense.core.service
-* __[liveSense :: Framework :: Apache CXF - org.liveSense.framework.cxf](http://github.com/liveSense/org.liveSense.framework.cxf) (2.7.0.1-SNAPSHOT)__
+* __[liveSense :: Framework :: Apache CXF - org.liveSense.framework.cxf (2-SNAPSHOT)](http://github.com/liveSense/org.liveSense.framework.cxf)__
 	* javax.ws.rs.core
 	* org.apache.cxf
 	* org.apache.cxf.aegis.databinding
@@ -49,7 +49,7 @@ liveSense CXF Service prototypes. Aegis/JAXWS/JAXRS Service abtract classes
 * __slf4j-api - slf4j.api (1.6.1)__
 	* org.slf4j
 
-## Embedded JARs
+## OSGi Embedded JARs
 
 ## Dependency Graph
-![alt text](http://raw.github.com.everydayimmirror.in/liveSense/org.liveSense.service.cxf/master/diagram.svg "")
+![alt text](http://raw.github.com.everydayimmirror.in/liveSense/org.liveSense.service.cxf/master/osgidependencies.svg "")
