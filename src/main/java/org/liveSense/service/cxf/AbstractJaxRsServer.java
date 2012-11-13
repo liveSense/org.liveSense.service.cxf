@@ -2,6 +2,8 @@
 //$Id: AbstractJaxWsServer.java 680 2011-09-12 16:57:25Z PRO-VISION\SSeifert $
 package org.liveSense.service.cxf;
 
+import java.io.ByteArrayOutputStream;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,8 @@ import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
 
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.BindingFactoryManager;
@@ -50,12 +54,46 @@ public abstract class AbstractJaxRsServer extends AbstractWsServer {
 			Map<Object, Object> extensionMappings = new HashMap<Object, Object>();
 			extensionMappings.put("xml", "application/xml");
 			extensionMappings.put("json", "application/json");
-			extensionMappings.put("html", "text/html");
+			
+			
+			// TODO: HTML extension is not workong now it requires XSLTJaxbProvider.
+			// But we have to able to define the XSLT file for the proveder, we need
+			// to extend the loader service for it to be flexible.  More info: 
+			// http://sberyozkin.blogspot.hu/2009/05/mvc-xml-way-with-cxf-jax-rs.html
+			// http://cxf.apache.org/docs/jax-rs-advanced-xml.html
+			
+			// extensionMappings.put("html", "text/html");
+			// It can be configured with this way:
+			//  <map id="outTemplates">
+			//      <entry key="application/xml" value="classpath:/WEB-INF/templates/book-xml.xsl"/>
+			//      <entry key="text/html" value="classpath:/WEB-INF/templates/book-html.xsl"/>
+			//      <entry key="application/json" value="classpath:/WEB-INF/templates/book-json.xsl"/>
+			//  </map>
+			//	  
+			//	  <bean id="uriResolver" class="org.apache.cxf.systest.jaxrs.URIResolverImpl"/>
+			//	  
+			//	  <bean id="xsltProvider" class="org.apache.cxf.jaxrs.provider.XSLTJaxbProvider">    
+			//	      <property name="outMediaTemplates" ref="outTemplates"/>
+			//	      <property name="resolver" ref="uriResolver"/>
+			//  </bean>
+	
 			sf.setExtensionMappings(extensionMappings);
 
 			List<Object> providers = new ArrayList<Object>();
 			providers.add(new JAXBElementProvider());
-			providers.add(new JacksonJaxbJsonProvider());
+			
+			// Jackson JSON Provider
+			JacksonJaxbJsonProvider jp = new JacksonJaxbJsonProvider();
+			
+			// This is hack, because the interface does not work in first time, so we emulate it
+			// http://stackoverflow.com/questions/10860142/appengine-java-jersey-jackson-jaxbannotationintrospector-noclassdeffounderror
+			// But that solution is not correct fpr this problem, because xc cause other problem (reason: JAXB annotations)
+			try {
+				jp.writeTo(new Long(1), Long.class, Long.class, new Annotation[]{}, MediaType.APPLICATION_JSON_TYPE, new MultivaluedHashMap<String, Object>(), new ByteArrayOutputStream());
+			} catch (Throwable e) {
+			}
+			providers.add(jp);
+			
 			sf.setProviders(providers);
 			
 			BindingFactoryManager manager = sf.getBus().getExtension(BindingFactoryManager.class);
