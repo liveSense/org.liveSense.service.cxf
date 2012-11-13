@@ -76,8 +76,6 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 	public abstract void callInit() throws Throwable;
 
 	public abstract void callFinal() throws Throwable;
-
-	private ClassLoader classLoader = null;
 	
 	BundleContext context = null;
 
@@ -87,13 +85,6 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 	 *
 	 * @param classLoader The classloader to provide to the SlingRemoteServiceServlet.
 	 */
-	protected void setClassLoader(ClassLoader classLoader) {
-		this.classLoader = classLoader;
-	}
-
-	protected ClassLoader getClassLoader() {
-		return this.classLoader;
-	}
 
 	protected void setBundleContext(BundleContext context) {
 		this.context = context;
@@ -102,18 +93,8 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 	@Override
 	protected void invoke(HttpServletRequest pRequest, HttpServletResponse pResponse) throws ServletException {
 		RequestContext.getThreadLocal().set(new RequestContext(pRequest, pResponse));
-		ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
 
 		try {
-			if (classLoader != null) {
-				// Set contextClassLoader
-				Thread.currentThread().setContextClassLoader(classLoader);
-			} else {
-				if (dynamicClassLoader != null) {
-					classLoader = dynamicClassLoader.getPackageAdminClassLoader(context);
-					Thread.currentThread().setContextClassLoader(classLoader);
-				}
-			}
 			// Authenticating - OSGi context
 			if (auth != null) {
 				auth.handleSecurity(pRequest, pResponse);
@@ -134,11 +115,6 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 					BusFactory.setThreadDefaultBus(bus);
 				}
 				controller.invoke(new RequestWrapper(pRequest, servletUrl), pResponse);
-				//				if (servletUrl == null) {
-				//					controller.invoke(new RequestWrapper(pRequest), pResponse);
-				//				} else {
-				//					controller.invoke(pRequest, pResponse);
-				//				}
 			} finally {
 				BusFactory.setThreadDefaultBus(null);
 				if (origLoader != null) {
@@ -152,7 +128,6 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 			} catch (Throwable e) {
 				log.error("callFinal: ", e);
 			}
-			Thread.currentThread().setContextClassLoader(oldClassLoader);
 			RequestContext.getThreadLocal().remove();        		
 		}
 	}
@@ -288,9 +263,6 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 		Bus origBus = null;
 		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
 			try {
-				if (loader != null) {
-					origLoader = ClassLoaderUtils.setThreadContextClassloader(loader);
-				}
 				if (bus != null) {
 					origBus = BusFactory.getAndSetThreadDefaultBus(bus);
 				}
@@ -298,9 +270,6 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 					return;
 				}
 			} finally {
-				if (origBus != bus) {
-					BusFactory.setThreadDefaultBus(origBus);
-				}
 				if (origLoader != null) {
 					origLoader.reset();
 				}
