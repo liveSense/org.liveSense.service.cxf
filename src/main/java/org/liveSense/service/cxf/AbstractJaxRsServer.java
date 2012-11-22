@@ -25,11 +25,16 @@ import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
+
 /**
  * Abstract servlet-based implementation for CXF-based SOAP services. Ensures
  * that correct class loader is used is during initialization and invoking
  * phases. Via getCurrentRequest() and getCurrentResponse() it is possible to
  * access these objects from SOAP method implementations.
+ * @Deprecated
+ * Use @WebServiceMarkerInterface and declaretive service instead. 
+ * Example: https://github.com/liveSense/org.liveSense.sample.webServiceServlet/tree/master/src/main/java/org/liveSense/sample/WebServiceServlet/ds
  */
 @Component(componentAbstract=true)
 public abstract class AbstractJaxRsServer extends AbstractWsServer {
@@ -49,7 +54,7 @@ public abstract class AbstractJaxRsServer extends AbstractWsServer {
 			JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
 			sf.setBus(getBus());
 			
-			sf.setAddress(getServletUrl() == null ? RequestWrapper.VIRTUAL_PATH : getServletUrl());
+			sf.setAddress(getServletUrl() == null ? SoapRequestWrapper.VIRTUAL_PATH : getServletUrl());
 			
 			Map<Object, Object> extensionMappings = new HashMap<Object, Object>();
 			extensionMappings.put("xml", "application/xml");

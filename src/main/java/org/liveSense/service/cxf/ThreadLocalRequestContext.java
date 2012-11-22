@@ -5,20 +5,25 @@ package org.liveSense.service.cxf;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.cxf.endpoint.Server;
+
 /**
  * Manages request/response context of incoming SOAP server HTTP requests using
  * a ThreadLocal.
  */
-class RequestContext {
+class ThreadLocalRequestContext {
 
-    private static ThreadLocal<RequestContext> mThreadLocal = new ThreadLocal<RequestContext>();
+    private static ThreadLocal<ThreadLocalRequestContext> mThreadLocal = new ThreadLocal<ThreadLocalRequestContext>();
 
     private final HttpServletRequest mRequest;
     private final HttpServletResponse mResponse;
+    private final Server mServer;
+    
 
-    RequestContext(HttpServletRequest pRequest, HttpServletResponse pResponse) {
+    ThreadLocalRequestContext(HttpServletRequest pRequest, HttpServletResponse pResponse, Server pServer) {
         mRequest = pRequest;
         mResponse = pResponse;
+        mServer = pServer;
     }
 
     /**
@@ -36,14 +41,24 @@ class RequestContext {
     }
 
     /**
+     * Return endpoint server handling this request
+     * @return
+     */
+    public Server getServer() {
+    	return mServer;
+    }
+    
+    
+    /**
      * @return Context for current SOAP server request
      */
-    public static RequestContext getRequestContext() {
+    public static ThreadLocalRequestContext getRequestContext() {
         return mThreadLocal.get();
     }
 
-    static ThreadLocal<RequestContext> getThreadLocal() {
+    static ThreadLocal<ThreadLocalRequestContext> getThreadLocal() {
         return mThreadLocal;
     }
+
 
 }
