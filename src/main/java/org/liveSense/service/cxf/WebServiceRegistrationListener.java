@@ -89,16 +89,16 @@ public class WebServiceRegistrationListener implements ServiceListener {
 	private String serviceRootUrl = PROP_SERVICE_ROOT_URL;
 
 
-	@Reference
+	@Reference(cardinality=ReferenceCardinality.MANDATORY_UNARY, policy=ReferencePolicy.DYNAMIC)
 	private HttpService osgiHttpService;
 
-	@Reference
+	@Reference(cardinality=ReferenceCardinality.MANDATORY_UNARY, policy=ReferencePolicy.DYNAMIC)
 	private AuthenticationSupport slingAuthenticator;
 
 	@Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL_UNARY)
 	private MimeTypeService mimeTypeService;
 
-	@Reference
+	@Reference(cardinality=ReferenceCardinality.MANDATORY_UNARY, policy=ReferencePolicy.DYNAMIC)
 	private OSGIClassLoaderManager osgiClassLoaderManager;
 
 	private Bus bus;

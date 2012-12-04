@@ -30,6 +30,8 @@ import org.apache.cxf.transport.servlet.ServletController;
 import org.apache.cxf.transport.servlet.servicelist.ServiceListGeneratorServlet;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.ReferenceCardinality;
+import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.sling.auth.core.AuthenticationSupport;
 import org.liveSense.core.service.OSGIClassLoaderManager;
 import org.osgi.framework.BundleContext;
@@ -55,10 +57,10 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 	@Reference(bind="bindAuth", unbind="unbindAuth")
 	AuthenticationSupport auth = null;
 
-	@Reference
+	@Reference(cardinality=ReferenceCardinality.MANDATORY_UNARY, policy=ReferencePolicy.DYNAMIC)
 	PackageAdmin packageAdmin;
 
-	@Reference
+	@Reference(cardinality=ReferenceCardinality.MANDATORY_UNARY, policy=ReferencePolicy.DYNAMIC)
 	OSGIClassLoaderManager dynamicClassLoader = null;
 
 	private DestinationRegistry destinationRegistry;
