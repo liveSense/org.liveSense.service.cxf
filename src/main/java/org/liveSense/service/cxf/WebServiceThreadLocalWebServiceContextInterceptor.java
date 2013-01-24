@@ -15,13 +15,12 @@ public class WebServiceThreadLocalWebServiceContextInterceptor extends AbstractP
 	Object serv;
 	
 	public WebServiceThreadLocalWebServiceContextInterceptor(Object serv) {
-		super(Phase.PRE_INVOKE);
+		super(Phase.RECEIVE);
 		this.serv = serv;
 	}
 
 	@Override
 	public void handleMessage(Message message) throws Fault {
-
 		// Setting up thread local WebService to be able to resolve @Resource annotations
 		SOAPMessageContextImpl msg = new SOAPMessageContextImpl(message);
 		WebServiceContextImpl ctx = new WebServiceContextImpl();
