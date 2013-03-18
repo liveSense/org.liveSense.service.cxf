@@ -2,13 +2,8 @@
 //$Id: AbstractJaxWsServer.java 680 2011-09-12 16:57:25Z PRO-VISION\SSeifert $
 package org.liveSense.service.cxf;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -260,6 +255,7 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 		}
 	}
 
+	/*
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
@@ -281,5 +277,5 @@ public abstract class AbstractWsServer extends AbstractHTTPServlet {
 		}
 		chain.doFilter(request, response);
 	}
-
+	*/
 }

@@ -1,8 +1,6 @@
 package org.liveSense.service.cxf;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -17,8 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedHashMap;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
@@ -53,7 +49,6 @@ import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.sling.auth.core.AuthenticationSupport;
 import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.sling.commons.osgi.PropertiesUtil;
-import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.liveSense.core.service.OSGIClassLoaderManager;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
@@ -167,12 +162,18 @@ public class WebServiceRegistrationListener implements ServiceListener {
 
 				try {
 					log.info("Registering CXF Root servlet: "+serviceRootUrl);
-					osgiHttpService.registerServlet(serviceRootUrl, cxfServlet, new java.util.Properties(), httpContext);
-
+					Dictionary props; 
+					props = new Hashtable();
+					props.put( "alias", serviceRootUrl );
+					
+					osgiHttpService.registerServlet(serviceRootUrl, cxfServlet, props, httpContext);
+					
 					log.info("Registering WebServiceThreadLocalRequestFilter");
 					// Registering threadLocalRequest servlet filter also
 					Dictionary<String, Comparable> filterProps = new Hashtable<String, Comparable>();
 					filterProps.put("pattern", serviceRootUrl+"/.*");
+					filterProps.put("alias", serviceRootUrl );
+
 					filterProps.put("init.message", "WebServiceThreadLocalRequestFilter!");
 					filterProps.put("service.ranking", "1");
 					filter = new WebServiceThreadLocalRequestFilter();
@@ -423,6 +424,7 @@ public class WebServiceRegistrationListener implements ServiceListener {
 		List<Object> providers = new ArrayList<Object>();
 		providers.add(new JAXBElementProvider());
 
+		/*
 		// Jackson JSON Provider
 		JacksonJaxbJsonProvider jp = new JacksonJaxbJsonProvider();
 
@@ -430,11 +432,13 @@ public class WebServiceRegistrationListener implements ServiceListener {
 		// http://stackoverflow.com/questions/10860142/appengine-java-jersey-jackson-jaxbannotationintrospector-noclassdeffounderror
 		// But that solution is not correct fpr this problem, because xc cause other problem (reason: JAXB annotations)
 		try {
-			jp.writeTo(new Long(1), Long.class, Long.class, new Annotation[]{}, MediaType.APPLICATION_JSON_TYPE, new MultivaluedHashMap<String, Object>(), new ByteArrayOutputStream());
+			jp.writeTo(new Long(1), Long.class, Long.class, new Annotation[]{}, MediaType.APPLICATION_JSON_TYPE, null, new ByteArrayOutputStream());
 		} catch (Throwable e) {
 		}
 		providers.add(jp);
-
+		(/
+		*/
+		
 		sf.setProviders(providers);
 
 		BindingFactoryManager manager = sf.getBus().getExtension(BindingFactoryManager.class);

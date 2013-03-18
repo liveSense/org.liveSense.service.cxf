@@ -2,8 +2,6 @@
 //$Id: AbstractJaxWsServer.java 680 2011-09-12 16:57:25Z PRO-VISION\SSeifert $
 package org.liveSense.service.cxf;
 
-import java.io.ByteArrayOutputStream;
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,8 +9,6 @@ import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedHashMap;
 
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.BindingFactoryManager;
@@ -21,7 +17,6 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.apache.cxf.jaxrs.provider.JAXBElementProvider;
 import org.apache.felix.scr.annotations.Component;
-import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,6 +82,7 @@ public abstract class AbstractJaxRsServer extends AbstractWsServer {
 			List<Object> providers = new ArrayList<Object>();
 			providers.add(new JAXBElementProvider());
 			
+			/*
 			// Jackson JSON Provider
 			JacksonJaxbJsonProvider jp = new JacksonJaxbJsonProvider();
 			
@@ -94,10 +90,12 @@ public abstract class AbstractJaxRsServer extends AbstractWsServer {
 			// http://stackoverflow.com/questions/10860142/appengine-java-jersey-jackson-jaxbannotationintrospector-noclassdeffounderror
 			// But that solution is not correct fpr this problem, because xc cause other problem (reason: JAXB annotations)
 			try {
-				jp.writeTo(new Long(1), Long.class, Long.class, new Annotation[]{}, MediaType.APPLICATION_JSON_TYPE, new MultivaluedHashMap<String, Object>(), new ByteArrayOutputStream());
+				jp.writeTo(new Long(1), Long.class, Long.class, new Annotation[]{}, MediaType.APPLICATION_JSON_TYPE, null, new ByteArrayOutputStream());
 			} catch (Throwable e) {
 			}
+			
 			providers.add(jp);
+			*/
 			
 			sf.setProviders(providers);
 			
