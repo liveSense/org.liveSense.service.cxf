@@ -2,6 +2,8 @@
 //$Id: AbstractJaxWsServer.java 680 2011-09-12 16:57:25Z PRO-VISION\SSeifert $
 package org.liveSense.service.cxf;
 
+import java.io.ByteArrayOutputStream;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.binding.BindingFactoryManager;
@@ -17,6 +20,7 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.apache.cxf.jaxrs.provider.JAXBElementProvider;
 import org.apache.felix.scr.annotations.Component;
+import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +86,6 @@ public abstract class AbstractJaxRsServer extends AbstractWsServer {
 			List<Object> providers = new ArrayList<Object>();
 			providers.add(new JAXBElementProvider());
 			
-			/*
 			// Jackson JSON Provider
 			JacksonJaxbJsonProvider jp = new JacksonJaxbJsonProvider();
 			
@@ -95,7 +98,6 @@ public abstract class AbstractJaxRsServer extends AbstractWsServer {
 			}
 			
 			providers.add(jp);
-			*/
 			
 			sf.setProviders(providers);
 			

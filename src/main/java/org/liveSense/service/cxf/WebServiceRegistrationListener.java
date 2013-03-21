@@ -1,6 +1,8 @@
 package org.liveSense.service.cxf;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -15,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusException;
@@ -49,6 +52,7 @@ import org.apache.felix.scr.annotations.ReferencePolicy;
 import org.apache.sling.auth.core.AuthenticationSupport;
 import org.apache.sling.commons.mime.MimeTypeService;
 import org.apache.sling.commons.osgi.PropertiesUtil;
+import org.codehaus.jackson.jaxrs.JacksonJaxbJsonProvider;
 import org.liveSense.core.service.OSGIClassLoaderManager;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.InvalidSyntaxException;
@@ -424,7 +428,6 @@ public class WebServiceRegistrationListener implements ServiceListener {
 		List<Object> providers = new ArrayList<Object>();
 		providers.add(new JAXBElementProvider());
 
-		/*
 		// Jackson JSON Provider
 		JacksonJaxbJsonProvider jp = new JacksonJaxbJsonProvider();
 
@@ -436,8 +439,7 @@ public class WebServiceRegistrationListener implements ServiceListener {
 		} catch (Throwable e) {
 		}
 		providers.add(jp);
-		(/
-		*/
+		
 		
 		sf.setProviders(providers);
 
