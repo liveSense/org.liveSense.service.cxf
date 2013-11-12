@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><features name="liveSense-${liveSense.version}-service-cxf" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+	<feature name="liveSense-service-cxf" version="${liveSense.service.cxf.version}" description="liveSense service cxf">
+        <feature>liveSense-core-base</feature>
+		<feature>cxf</feature>
+		<bundle>mvn:org.codehaus.jackson/jackson-core-asl/${jackson.version}</bundle>
+		<bundle>mvn:org.codehaus.jackson/jackson-mapper-asl/${jackson.version}</bundle>
+		<bundle>mvn:org.codehaus.jackson/jackson-jaxrs/${jackson.version}</bundle>
+		<bundle>mvn:com.github.livesense/org.liveSense.service.cxf/${liveSense.service.cxf.version}</bundle>
+	</feature>
+</features>
