@@ -6,9 +6,10 @@
 	<parent>
 		<groupId>com.github.livesense</groupId>
 		<artifactId>org.liveSense.parent</artifactId>
-		<version>2-SNAPSHOT</version>
+		<version>1.0.3</version>
 		<relativePath>..</relativePath>
 	</parent>
+    <version>1.0.3-SNAPSHOT</version>
 	<scm>
 		<connection>scm:git:https://github.com/liveSense/org.liveSense.service.cxf.git</connection>
 		<developerConnection>scm:git:https://github.com/liveSense/org.liveSense.service.cxf.git</developerConnection>
@@ -16,7 +17,6 @@
 	</scm>
 	<artifactId>org.liveSense.service.cxf</artifactId>
 	<packaging>bundle</packaging>
-	<version>1.0.0-SNAPSHOT</version>
 	<name>liveSense :: Service :: CXF Abstract Aegis/JAXWS/JAXRS Services</name>
 	<description>liveSense CXF Service prototypes. Aegis/JAXWS/JAXRS Service abtract classes</description>
 	<properties>
