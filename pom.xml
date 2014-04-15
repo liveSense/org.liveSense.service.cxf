@@ -9,12 +9,13 @@
 		<version>1.0.3</version>
 		<relativePath>..</relativePath>
 	</parent>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
 	<scm>
 		<connection>scm:git:https://github.com/liveSense/org.liveSense.service.cxf.git</connection>
 		<developerConnection>scm:git:https://github.com/liveSense/org.liveSense.service.cxf.git</developerConnection>
 		<url>https://github.com/liveSense/org.liveSense.service.cxf</url>
-	</scm>
+	  <tag>1.0.3</tag>
+  </scm>
 	<artifactId>org.liveSense.service.cxf</artifactId>
 	<packaging>bundle</packaging>
 	<name>liveSense :: Service :: CXF Abstract Aegis/JAXWS/JAXRS Services</name>
