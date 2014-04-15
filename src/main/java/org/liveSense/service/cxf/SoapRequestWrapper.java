@@ -148,7 +148,7 @@ public class SoapRequestWrapper extends HttpServletRequestWrapper {
 						} else {
 							uriBuilder.replacePath(urlPrefix+servletUrl+urlPostfix);	    				
 						}
-						return uriBuilder.build((Object)null).toString();
+						return uriBuilder.build("").toString();
 					} else {
 						log.warn("URI ("+uri.toString()+") does not contain: "+requestPath);
 						return servletUrl;
